@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function Header() {
   return (
@@ -10,9 +10,9 @@ function Header() {
         arial-label="Furni navigation bar"
       >
         <div className="container">
-          <Link className="navbar-brand" to="index">
+          <NavLink className="navbar-brand" to="index">
             Furni<span>.</span>
-          </Link>
+          </NavLink>
           <button
             className="navbar-toggler"
             type="button"
@@ -27,46 +27,46 @@ function Header() {
           <div className="collapse navbar-collapse" id="navbarsFurni">
             <ul className="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
               <li className="nav-item active">
-                <Link className="nav-link" to="/">
+                <NavLink className="nav-link" to="/">
                   Home
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link className="nav-link" to="/shop">
+                <NavLink className="nav-link" to="/shop">
                   Shop
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link className="nav-link" to="/about">
+                <NavLink className="nav-link" to="/about">
                   About us
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link className="nav-link" to="/services">
+                <NavLink className="nav-link" to="/services">
                   Services
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link className="nav-link" to="/blog">
+                <NavLink className="nav-link" to="/blog">
                   Blog
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link className="nav-link" to="/contact">
+                <NavLink className="nav-link" to="/contact">
                   Contact us
-                </Link>
+                </NavLink>
               </li>
             </ul>
             <ul className="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
               <li>
-                <Link className="nav-link" to="#">
+                <NavLink className="nav-link" to="#">
                   <img src="images/user.svg" />
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link className="nav-link" to="/cart">
+                <NavLink className="nav-link" to="/cart">
                   <img src="images/cart.svg" />
-                </Link>
+                </NavLink>
               </li>
             </ul>
           </div>

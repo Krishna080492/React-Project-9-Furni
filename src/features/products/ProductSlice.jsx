@@ -1,0 +1,1 @@
+// first u have to install npm i react-redux @reduxjs/toolkit
