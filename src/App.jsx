@@ -8,6 +8,7 @@ import Shop from "./containers/Shop";
 import Blog from "./containers/Blog";
 import Service from "./containers/Service";
 import Contact from "./containers/Contact";
+import Cart from "./containers/Cart";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/blog" element={<Blog />} />
           <Route path="/services" element={<Service />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/cart" element={<Cart />} />
         </Routes>
         <Footer />
       </BrowserRouter>
