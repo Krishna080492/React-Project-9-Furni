@@ -1,6 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  decrementProduct,
+  incrementProduct,
+  removeToCart,
+  getGrandTotal,
+} from "../features/products/ProductSlice";
 
 function Cart() {
+  // const cart = useSelector((state) => state.product.cart); //slice mathi cart ma product jse
+  // or
+  const { cart, grandTotal } = useSelector((state) => state.product); //with destructure
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getGrandTotal());
+  }, [cart]);
   return (
     <>
       {/* Start Hero Section */}
@@ -34,106 +50,79 @@ function Cart() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td className="product-thumbnail">
-                        <img
-                          src="images/product-1.png"
-                          alt="Image"
-                          className="img-fluid"
-                        />
-                      </td>
-                      <td className="product-name">
-                        <h2 className="h5 text-black">Product 1</h2>
-                      </td>
-                      <td>$49.00</td>
-                      <td>
-                        <div
-                          className="input-group mb-3 d-flex align-items-center quantity-container"
-                          style={{ maxWidth: 120 }}
-                        >
-                          <div className="input-group-prepend">
-                            <button
-                              className="btn btn-outline-black decrease"
-                              type="button"
-                            >
-                              −
-                            </button>
-                          </div>
-                          <input
-                            type="text"
-                            className="form-control text-center quantity-amount"
-                            defaultValue={1}
-                            placeholder
-                            aria-label="Example text with button addon"
-                            aria-describedby="button-addon1"
-                          />
-                          <div className="input-group-append">
-                            <button
-                              className="btn btn-outline-black increase"
-                              type="button"
-                            >
-                              +
-                            </button>
-                          </div>
-                        </div>
-                      </td>
-                      <td>$49.00</td>
-                      <td>
-                        <a href="#" className="btn btn-black btn-sm">
-                          X
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="product-thumbnail">
-                        <img
-                          src="images/product-2.png"
-                          alt="Image"
-                          className="img-fluid"
-                        />
-                      </td>
-                      <td className="product-name">
-                        <h2 className="h5 text-black">Product 2</h2>
-                      </td>
-                      <td>$49.00</td>
-                      <td>
-                        <div
-                          className="input-group mb-3 d-flex align-items-center quantity-container"
-                          style={{ maxWidth: 120 }}
-                        >
-                          <div className="input-group-prepend">
-                            <button
-                              className="btn btn-outline-black decrease"
-                              type="button"
-                            >
-                              −
-                            </button>
-                          </div>
-                          <input
-                            type="text"
-                            className="form-control text-center quantity-amount"
-                            defaultValue={1}
-                            placeholder
-                            aria-label="Example text with button addon"
-                            aria-describedby="button-addon1"
-                          />
-                          <div className="input-group-append">
-                            <button
-                              className="btn btn-outline-black increase"
-                              type="button"
-                            >
-                              +
-                            </button>
-                          </div>
-                        </div>
-                      </td>
-                      <td>$49.00</td>
-                      <td>
-                        <a href="#" className="btn btn-black btn-sm">
-                          X
-                        </a>
-                      </td>
-                    </tr>
+                    {cart.length > 0 ? (
+                      cart.map((product, index) => {
+                        let { id, title, price, image, quantity } = product;
+                        let total = price * quantity;
+                        return (
+                          <tr key={id}>
+                            <td className="product-thumbnail">
+                              <img
+                                src={image}
+                                alt="Image"
+                                className="img-fluid"
+                              />
+                            </td>
+                            <td className="product-name">
+                              <h2 className="h5 text-black">{title}</h2>
+                            </td>
+                            <td>${price.toFixed(2)}</td>
+                            <td>
+                              <div
+                                className="input-group mb-3 d-flex align-items-center quantity-container"
+                                style={{ maxWidth: 120 }}
+                              >
+                                <div className="input-group-prepend">
+                                  <button
+                                    className="btn btn-outline-black decrease"
+                                    type="button"
+                                    onClick={() =>
+                                      dispatch(decrementProduct(index))
+                                    }
+                                  >
+                                    −
+                                  </button>
+                                </div>
+                                <input
+                                  type="text"
+                                  className="form-control text-center quantity-amount"
+                                  value={quantity}
+                                  placeholder
+                                  aria-label="Example text with button addon"
+                                  aria-describedby="button-addon1"
+                                />
+                                <div className="input-group-append">
+                                  <button
+                                    className="btn btn-outline-black increase"
+                                    type="button"
+                                    onClick={() =>
+                                      dispatch(incrementProduct(index))
+                                    }
+                                  >
+                                    +
+                                  </button>
+                                </div>
+                              </div>
+                            </td>
+                            <td>${total.toFixed(2)}</td>
+                            <td>
+                              <button
+                                className="btn btn-black btn-sm"
+                                onClick={() => dispatch(removeToCart(id))}
+                              >
+                                X
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })
+                    ) : (
+                      <tr>
+                        <td colSpan={6} className="text-center">
+                          <h2>No items in cart</h2>
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -188,7 +177,7 @@ function Cart() {
                       <span className="text-black">Subtotal</span>
                     </div>
                     <div className="col-md-6 text-right">
-                      <strong className="text-black">$230.00</strong>
+                      <strong className="text-black">${grandTotal.toFixed(2)}</strong>
                     </div>
                   </div>
                   <div className="row mb-5">
@@ -196,14 +185,14 @@ function Cart() {
                       <span className="text-black">Total</span>
                     </div>
                     <div className="col-md-6 text-right">
-                      <strong className="text-black">$230.00</strong>
+                      <strong className="text-black">${grandTotal.toFixed(2)}</strong>
                     </div>
                   </div>
                   <div className="row">
                     <div className="col-md-12">
                       <button
                         className="btn btn-black btn-lg py-3 btn-block"
-                        onclick="window.location='checkout.html'"
+                        onClick="window.location='checkout.html'"
                       >
                         Proceed To Checkout
                       </button>
